@@ -5,10 +5,14 @@
   color: #ffffff;
   font-family: "Montserrat", sans-serif;
   position: relative;
-  width: 100%;
+  width: 95%;
   z-index: 100; /* Ensure footer is above background */
   padding: 40px 0;
-  margin-top: auto; /* Push to bottom */
+  margin-top: auto;
+   /* Push to bottom */
+  margin: auto;
+  border-radius: 25px;
+  margin-bottom: 10px;
 }
 
 .footer::before {
