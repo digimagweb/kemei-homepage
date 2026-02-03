@@ -49,15 +49,16 @@
   gap: 2rem;
   align-items: center;
   padding: 12px 24px;
-  background: rgba(0, 2, 36, 0.8);
+  background: rgba(80, 20, 100, 0.15);
+  /* More translucent, darker neo-pink */
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-radius: 100px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 
-    0 8px 32px rgba(31, 38, 135, 0.37),
-    0 4px 16px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 8px 32px rgba(192, 38, 211, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 /* Nav Items */
@@ -91,7 +92,8 @@
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #00a3ff, #00e58f);
+  background: linear-gradient(90deg, #1e3a8a, #2563eb);
+  /* Darker blue gradient */
   border-radius: 1px;
   transition: width 0.3s ease;
 }
@@ -240,7 +242,8 @@
 }
 
 .mobileNavItem.active {
-  color: #00e58f;
+  color: #ec4899;
+  /* Pink to match theme */
   font-weight: 600;
 }
 
@@ -249,13 +252,14 @@
   .desktopMenu {
     display: none;
   }
-  
+
   .mobileMenuButton {
     display: block;
     position: fixed;
     top: 20px;
     right: 20px;
-    background: rgba(0, 2, 36, 0.8);
+    background: rgba(80, 20, 100, 0.15);
+    /* More translucent, darker neo-pink */
     backdrop-filter: blur(20px);
     border-radius: 50%;
     width: 44px;
