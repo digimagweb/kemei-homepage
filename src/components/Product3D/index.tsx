@@ -107,23 +107,24 @@ const Model: React.FC<ModelProps> = ({
       }
     });
 
-    // 1. Rotate first
-    scene.rotation.set(-Math.PI / 2, 0, Math.PI);
+    // 1. Rotate first - horizontal at 45 degree angle, flipped to show front
+    scene.rotation.set(-Math.PI / 2, 0, Math.PI / 4 + Math.PI);
 
     // 2. Scale
     const boxBefore = new THREE.Box3().setFromObject(scene);
     const size = boxBefore.getSize(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z);
-    scene.scale.setScalar(2 / maxDim);
+    scene.scale.setScalar(6 / maxDim);
 
     // 3. Recompute box AFTER transforms
     const boxAfter = new THREE.Box3().setFromObject(scene);
     const center = boxAfter.getCenter(new THREE.Vector3());
+    const sizeAfter = boxAfter.getSize(new THREE.Vector3());
 
     // 4. True centering
     scene.position.set(-center.x, -center.y, -center.z);
-    baseYOffset.current = size.y * 0.5;
-    baseXOffset.current = size.x * 2.9;
+    baseYOffset.current = 0; // Keep centered vertically
+    baseXOffset.current = 0; // Keep centered horizontally
   }, [scene]);
 
   useFrame((_, delta) => {
@@ -592,16 +593,15 @@ export default function RotatingUSPShowcase() {
           <div
             className="absolute z-10 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             style={{
-              maxWidth: config.canvas.maxWidth,
+              width: config.canvas.maxWidth,
               height: config.canvas.height,
-              width: "100%",
             }}
-            // onMouseEnter={() => setHover(true)}
-            // onMouseLeave={() => {
-            //   setHover(false);
-            //   setMousePos({ x: 0, y: 0 });
-            // }}
-            // onMouseMove={handleMouseMove}
+          // onMouseEnter={() => setHover(true)}
+          // onMouseLeave={() => {
+          //   setHover(false);
+          //   setMousePos({ x: 0, y: 0 });
+          // }}
+          // onMouseMove={handleMouseMove}
           >
             <Canvas
               camera={{
@@ -609,6 +609,7 @@ export default function RotatingUSPShowcase() {
                 fov: config.canvas.fov,
               }}
               dpr={[1, 2]}
+              style={{ width: '100%', height: '100%' }}
             >
               <ambientLight intensity={0.6} />
               <directionalLight
@@ -655,11 +656,10 @@ export default function RotatingUSPShowcase() {
                     ref={(el) => {
                       if (el) labelsRef.current[i] = el;
                     }}
-                    className={`rounded-full font-medium transition-all duration-300 whitespace-nowrap transform backdrop-blur-sm border text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl ${
-                      i === activeIndex
-                        ? "glass-card scale-100 bg-white/20 backdrop-blur-md border border-white/30"
-                        : "glass-card opacity-60 bg-white/10 backdrop-blur-sm border border-white/10"
-                    }`}
+                    className={`rounded-full font-medium transition-all duration-300 whitespace-nowrap transform backdrop-blur-sm border text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl ${i === activeIndex
+                      ? "glass-card scale-100 bg-white/20 backdrop-blur-md border border-white/30"
+                      : "glass-card opacity-60 bg-white/10 backdrop-blur-sm border border-white/10"
+                      }`}
                     style={{
                       padding: config.circle.labelPadding,
                       // fontSize: config.circle.labelFontSize,
@@ -676,9 +676,8 @@ export default function RotatingUSPShowcase() {
 
       {/* MOBILE INDICATOR */}
       <div
-        className={`absolute bottom-6 left-1/2 transform -translate-x-1/2 ${
-          breakpoint.includes("mobile") ? "block" : "hidden"
-        }`}
+        className={`absolute bottom-6 left-1/2 transform -translate-x-1/2 ${breakpoint.includes("mobile") ? "block" : "hidden"
+          }`}
       >
         <div className="flex flex-col items-center text-white/60">
           <span className="text-xs mb-1">Scroll</span>
@@ -736,3 +735,4 @@ export default function RotatingUSPShowcase() {
     </section>
   );
 }
+
