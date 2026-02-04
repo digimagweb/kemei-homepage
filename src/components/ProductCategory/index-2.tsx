@@ -79,8 +79,19 @@ export default function ScrollFeatureSection() {
           className="relative mx-auto w-[90%] md:w-[98%]
   lg:w-[90%] xl:w-[75%] max-w-7xl h-[550px] rounded-3xl overflow-hidden grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 glass-card"
         >
-          {/* TEXT */}
-          <div className="flex items-center justify-center">
+          {/* MOBILE BACKGROUND (Visible only on mobile) */}
+          <div
+            className="absolute inset-0 block md:hidden bg-cover bg-center z-0 transition-opacity duration-500"
+            style={{
+              backgroundImage: `url(${
+                // @ts-ignore
+                feature.mobileImg || feature.sideImage
+                })`,
+            }}
+          />
+
+          {/* TEXT (Hidden on mobile) */}
+          <div className="hidden md:flex items-center justify-center">
             <div ref={contentRef} className="max-w-md px-8 py-12 z-100">
               <p className="text-sm opacity-80 leading-relaxed">
                 {feature.subTitle}
@@ -94,8 +105,8 @@ export default function ScrollFeatureSection() {
             </div>
           </div>
 
-          {/* SIDE IMAGE */}
-          <div className="relative hidden sm:block">
+          {/* SIDE IMAGE (Hidden on mobile) */}
+          <div className="relative hidden md:block">
             <Image
               src={feature.sideImage}
               alt=""
@@ -105,10 +116,10 @@ export default function ScrollFeatureSection() {
             />
           </div>
 
-          {/* CENTER PRODUCT */}
+          {/* CENTER PRODUCT (Button on mobile, Image+Button on desktop) */}
           <div
             ref={centerRef}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-6"
+            className="absolute left-1/2 top-[65%] md:top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-6"
           >
             <Image
               src={feature.centerImage}
@@ -116,6 +127,7 @@ export default function ScrollFeatureSection() {
               width={220}
               height={420}
               className="
+                hidden md:block
                 w-[140px]
                 sm:w-[180px]
                 md:w-[240px]
@@ -127,7 +139,10 @@ export default function ScrollFeatureSection() {
               priority
             />
 
-            <a href={feature.href} className="glass-button bottom-10">
+            <a
+              href={feature.href}
+              className="glass-button opacity-70 hover:opacity-100 transition-opacity duration-300 md:opacity-100"
+            >
               {feature.cta}
             </a>
           </div>
