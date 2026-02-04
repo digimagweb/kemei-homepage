@@ -510,11 +510,11 @@ export default function Carousel3D() {
           }
         }
 
-          @media (max-width: 480px) {
+        @media (max-width: 480px) {
           .carousel-section {
             min-height: auto !important;
             height: auto !important;
-            padding-bottom: 0px !important; /* Remove padding */
+            padding-bottom: 40px !important; /* Added padding to prevent hugging footer */
             align-items: flex-start !important; /* Move items to top if possible */
           }
 
@@ -543,7 +543,7 @@ export default function Carousel3D() {
           }
         }
 
-        @media (max-width: 429px) {
+        @media (max-width: 430px) {
            .carousel-container {
              height: 400px !important; 
              margin-top: 20px !important; 
@@ -558,10 +558,34 @@ export default function Carousel3D() {
            }
           
         }
-        @media (max-width: 429px) {
+        @media (max-width: 430px) {
           .video-container {
             margin-top: 250px;
             margin-bottom: -100px;
+          }
+        }
+        
+        @media (max-width: 430px) and (min-height: 700px) {
+          #testimonials {
+            min-height: 0 !important;
+            height: auto !important;
+            padding-bottom: 0 !important;
+          }
+
+          .carousel-section {
+             height: 440px !important;
+             min-height: 440px !important;
+             max-height: 440px !important;
+             margin-bottom: 40px !important; /* Added slight padding from footer */
+             padding-bottom: 0 !important;
+             overflow: visible !important;
+          }
+          .carousel-container {
+             height: 440px !important;
+             min-height: 440px !important;
+             max-height: 440px !important;
+             margin-bottom: 0 !important;
+             margin-top: 0 !important;
           }
         }
       `}</style>
