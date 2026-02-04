@@ -559,7 +559,7 @@ export default function Carousel3D() {
         }
         @media (max-width: 429px) {
           .video-container {
-            margin-top: 180px;
+            margin-top: 250px;
           }
         }
       `}</style>
