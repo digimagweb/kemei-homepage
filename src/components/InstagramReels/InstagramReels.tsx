@@ -470,6 +470,7 @@ export default function Carousel3D() {
           width: 100%;
           height: 100%;
           margin-top: 0; 
+          margin-bottom: 0;
         }
 
         .framer-P9Zef {
@@ -560,6 +561,7 @@ export default function Carousel3D() {
         @media (max-width: 429px) {
           .video-container {
             margin-top: 250px;
+            margin-bottom: -100px;
           }
         }
       `}</style>
