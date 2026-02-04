@@ -272,11 +272,15 @@ const RESPONSIVE_CONFIG = {
     containerHeight: "100dvh",
     textBlock: {
       top: "1rem",
-      right: "3%",
+      right: "auto",
+      left: "50%",
+      transform: "translateX(-50%)",
       padding: "1.25rem",
       maxWidth: "25rem",
       titleSize: "1.05rem",
       descriptionSize: "0.7rem",
+      textAlign: "center",
+      width: "90%",
     },
     canvas: {
       maxWidth: "115px",
@@ -296,11 +300,15 @@ const RESPONSIVE_CONFIG = {
     containerHeight: "100dvh",
     textBlock: {
       top: "1rem",
-      right: "8%",
+      right: "auto",
+      left: "50%",
+      transform: "translateX(-50%)",
       padding: "1rem",
       maxWidth: "20rem",
       titleSize: "1.05rem",
       descriptionSize: "0.7rem",
+      textAlign: "center",
+      width: "90%",
     },
     canvas: {
       maxWidth: "160px",
@@ -320,11 +328,15 @@ const RESPONSIVE_CONFIG = {
     containerHeight: "100dvh",
     textBlock: {
       top: "1rem",
-      right: "5%",
+      right: "auto",
+      left: "50%",
+      transform: "translateX(-50%)",
       padding: "1rem",
       maxWidth: "18rem",
       titleSize: "1.05rem",
       descriptionSize: "0.7rem",
+      textAlign: "center",
+      width: "90%",
     },
     canvas: {
       maxWidth: "140px",
@@ -395,6 +407,7 @@ export default function RotatingUSPShowcase() {
     };
   }, []);
 
+  // @ts-ignore
   const config = RESPONSIVE_CONFIG[breakpoint];
 
   /* =======================
@@ -492,28 +505,12 @@ export default function RotatingUSPShowcase() {
 
     // Cleanup function
     return () => {
-      triggers.forEach((trigger) => {
-        if (trigger && trigger.kill) {
-          try {
-            trigger.kill();
-          } catch (e) {
-            console.warn("Error killing ScrollTrigger:", e);
-          }
-        }
-      });
-
-      // Clear labels refs
-      labelsRef.current = [];
-
-      // Refresh ScrollTrigger after cleanup
+      triggers.forEach((t) => t.kill());
       setTimeout(() => {
-        ScrollTrigger.clearMatchMedia();
         ScrollTrigger.refresh();
       }, 50);
     };
-  }, [isMounted]);
-
-  const currentUSP = usps[activeIndex];
+  }, [isMounted]); // activeIndex shouldn't trigger re-init
 
   /* =======================
      MOUSE TILT
@@ -525,6 +522,8 @@ export default function RotatingUSPShowcase() {
       y: (e.clientY - rect.top - rect.height / 2) / (rect.height / 2),
     });
   }, []);
+
+  const currentUSP = usps[activeIndex];
 
   /* =======================
      HANDLE WINDOW RESIZE
@@ -568,8 +567,12 @@ export default function RotatingUSPShowcase() {
         style={{
           top: config.textBlock.top,
           right: config.textBlock.right,
+          left: (config.textBlock as any).left,
+          transform: (config.textBlock as any).transform,
           padding: config.textBlock.padding,
           maxWidth: config.textBlock.maxWidth,
+          width: (config.textBlock as any).width,
+          textAlign: (config.textBlock as any).textAlign
         }}
       >
         <h3
