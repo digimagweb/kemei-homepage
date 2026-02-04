@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -79,7 +78,7 @@ export default function ScrollFeatureSection() {
           <div className="flex flex-col items-center gap-6">
             <div className="relative w-full overflow-hidden rounded-3xl shadow-lg border border-white/10">
               <Image
-                src="/product-category/for-him-1.webp"
+                src="/product-category/for-him-with-text.webp"
                 alt="For Him"
                 width={800}
                 height={1000}
