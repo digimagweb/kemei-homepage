@@ -80,47 +80,51 @@ const ScrollingSection: React.FC = () => {
   // Render both layouts and toggle with CSS for SSR safety
   return (
     <>
-      {/* MOBILE LAYOUT (< 768px) - Force block display and high z-index */}
-      <section className="relative w-full overflow-hidden py-4 block md:hidden z-30">
-        <div className="snap-x snap-mandatory flex overflow-x-auto scrollbar-hide pb-8">
-          {phases.map((phase, index) => (
-            <div
-              key={index}
-              className="snap-center w-[85vw] flex-shrink-0 px-2 first:pl-6 last:pr-6"
-            >
-              <div className="relative rounded-2xl overflow-hidden h-[500px] border border-white/20 bg-[#0a0a0a] shadow-2xl">
-                {/* Full Background Image */}
-                <div
-                  className="absolute inset-0 w-full h-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${phase.bgImg})` }}
-                  role="img"
-                  aria-label={phase.title}
-                />
+      {/* OLD MOBILE LAYOUT - HIDDEN */}
+      <section className="hidden">
+        {/* Content hidden as per request */}
+      </section>
 
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+      {/* NEW MOBILE LAYOUT (< 768px) - Static Images */}
+      <section className="relative w-full overflow-hidden py-8 block md:hidden z-30 bg-transparent">
+        <div className="flex flex-col space-y-8 px-4">
 
-                {/* Content Container */}
-                <div className="absolute inset-0 flex flex-col justify-end items-center p-6 text-center z-10 pb-12">
-                  {/* Central Product Image */}
-                  <img
-                    src={phase.centralImg}
-                    alt={phase.title}
-                    className="w-40 h-auto mb-4 drop-shadow-2xl object-contain"
-                  />
-
-                  <div className="space-y-2 mb-2">
-                    <h3 className="text-2xl font-bold tracking-tighter uppercase text-white drop-shadow-lg">
-                      {phase.title}
-                    </h3>
-                    <p className="text-sm font-medium text-white/90 leading-relaxed max-w-[280px] mx-auto drop-shadow-md">
-                      {phase.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
+          {/* Item 1: For Him */}
+          <div className="flex flex-col w-full items-center">
+            <div className="relative w-full rounded-2xl overflow-hidden shadow-lg border border-white/10">
+              <img
+                src="/product-category/for-him-with-text.webp"
+                alt="For Him"
+                className="w-full h-auto object-cover block"
+              />
             </div>
-          ))}
+            <a
+              href="https://kemei-professionals.myshopify.com/collections/for-him"
+              className="mt-4 px-8 py-3 rounded-full bg-emerald-950 text-white flex items-center gap-2 
+                           hover:bg-emerald-900 transition-all border border-emerald-500/30 shadow-md text-sm font-semibold tracking-wide"
+            >
+              Explore Now <span className="text-lg">→</span>
+            </a>
+          </div>
+
+          {/* Item 2: For Her */}
+          <div className="flex flex-col w-full items-center">
+            <div className="relative w-full rounded-2xl overflow-hidden shadow-lg border border-white/10">
+              <img
+                src="/product-category/for-her-with-text.webp"
+                alt="For Her"
+                className="w-full h-auto object-cover block"
+              />
+            </div>
+            <a
+              href="https://kemei-professionals.myshopify.com/collections/for-her"
+              className="mt-4 px-8 py-3 rounded-full bg-emerald-950 text-white flex items-center gap-2 
+                           hover:bg-emerald-900 transition-all border border-emerald-500/30 shadow-md text-sm font-semibold tracking-wide"
+            >
+              Explore Now <span className="text-lg">→</span>
+            </a>
+          </div>
+
         </div>
       </section>
 
