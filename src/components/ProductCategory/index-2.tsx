@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -71,9 +72,52 @@ export default function ScrollFeatureSection() {
 
   return (
     <>
+      {/* MOBILE LAYOUT (Visible < 768px) */}
+      <section className="block md:hidden w-full py-10 relative z-10">
+        <div className="flex flex-col gap-12 px-6">
+          {/* For Him */}
+          <div className="flex flex-col items-center gap-6">
+            <div className="relative w-full overflow-hidden rounded-3xl shadow-lg border border-white/10">
+              <Image
+                src="/product-category/for-him-1.webp"
+                alt="For Him"
+                width={800}
+                height={1000}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+            <a
+              href="https://kemei-professionals.myshopify.com/collections/for-him"
+              className="glass-button opacity-100 hover:opacity-100 transition-opacity duration-300"
+            >
+              Explore More
+            </a>
+          </div>
+
+          {/* For Her */}
+          <div className="flex flex-col items-center gap-6">
+            <div className="relative w-full overflow-hidden rounded-3xl shadow-lg border border-white/10">
+              <Image
+                src="/product-category/for-her-with-text.webp"
+                alt="For Her"
+                width={800}
+                height={1000}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+            <a
+              href="https://kemei-professionals.myshopify.com/collections/for-her"
+              className="glass-button opacity-100 hover:opacity-100 transition-opacity duration-300"
+            >
+              Explore More
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section
         ref={sectionRef}
-        className="relative min-h-screen flex items-center"
+        className="hidden md:flex relative min-h-screen items-center"
       >
         <div
           className="relative mx-auto w-[90%] md:w-[98%]
