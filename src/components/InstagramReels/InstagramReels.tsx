@@ -383,6 +383,7 @@ export default function Carousel3D() {
           height: 100%;
         }
 
+        .carousel-container {
           width: 100%;
           height: 100vh;
           /* cursor: grab; REMOVED to allow normal cursor on background */
@@ -507,7 +508,14 @@ export default function Carousel3D() {
           }
         }
 
-        @media (max-width: 480px) {
+          @media (max-width: 480px) {
+          .carousel-section {
+            min-height: auto !important;
+            height: auto !important;
+            padding-bottom: 0px !important; /* Remove padding */
+            align-items: flex-start !important; /* Move items to top if possible */
+          }
+
           .carousel-inner {
             padding-top: 0px !important;
           }
@@ -528,8 +536,16 @@ export default function Carousel3D() {
               rgb(0, 0, 0) 85%,
               rgba(0, 0, 0, 0.15) 100%
             );
-            height: 90vh;
+            height: 460px; /* Tightly fit 450px card */
+            margin-top: 0px; 
           }
+        }
+
+        @media (max-width: 430px) {
+           .carousel-container {
+             height: 380px !important; /* Force even smaller height for <430px */
+             margin-top: 60px !important; 
+           }
         }
       `}</style>
     </section>
