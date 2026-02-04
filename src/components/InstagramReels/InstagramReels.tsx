@@ -428,7 +428,7 @@ export default function Carousel3D() {
           transform-style: preserve-3d;
         }
         
-        @media screen and (max-width: 430px){
+        @media screen and (max-width: 480px){
           .transform-container {
             height: 0px;
           }
@@ -543,7 +543,7 @@ export default function Carousel3D() {
           }
         }
 
-        @media (max-width: 430px) {
+        @media (max-width: 480px) {
            .carousel-container {
              height: 400px !important; 
              margin-top: 20px !important; 
@@ -558,14 +558,14 @@ export default function Carousel3D() {
            }
           
         }
-        @media (max-width: 430px) {
+        @media (max-width: 480px) {
           .video-container {
             margin-top: 250px;
             margin-bottom: -100px;
           }
         }
         
-        @media (max-width: 430px) and (min-height: 700px) {
+        @media (max-width: 480px) and (min-height: 700px) {
           #testimonials {
             min-height: 0 !important;
             height: auto !important;
