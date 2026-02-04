@@ -264,9 +264,7 @@ export default function Carousel3D() {
         <div
           className="carousel-container"
           ref={containerRef}
-          // onWheel={handleWheel}
-          onMouseDown={handleDragStart}
-          onTouchStart={handleDragStart}
+        // onWheel={handleWheel}
         >
           <div className="carousel-inner">
             <div className="perspective-container">
@@ -279,6 +277,8 @@ export default function Carousel3D() {
                       <div
                         key={item.id}
                         className="carousel-item"
+                        onMouseDown={handleDragStart}
+                        onTouchStart={handleDragStart}
                         style={{
                           transform: `translate(-50%, -50%) rotateY(${angle}deg) translateZ(-967px) translateZ(0.1px)`,
                         }}
@@ -383,14 +383,13 @@ export default function Carousel3D() {
           height: 100%;
         }
 
-        .carousel-container {
           width: 100%;
           height: 100vh;
-          cursor: grab;
+          /* cursor: grab; REMOVED to allow normal cursor on background */
           user-select: none;
           position: relative;
           background-color: transparent;
-          touch-action: none;
+          touch-action: pan-y; /* ALLOW vertical scroll on background */
           mask-image: linear-gradient(
             to right,
             rgba(0, 0, 0, 0.15) 0%,
@@ -458,6 +457,12 @@ export default function Carousel3D() {
           width: 280px;
           height: 500px;
           transform-style: preserve-3d;
+          cursor: grab; /* Cursor on item */
+          touch-action: pan-y; /* Allow vertical scroll, horizontal triggers drag (via JS) */
+        }
+        
+        .carousel-item:active {
+           cursor: grabbing;
         }
 
         .video-container {
@@ -530,4 +535,3 @@ export default function Carousel3D() {
     </section>
   );
 }
-
