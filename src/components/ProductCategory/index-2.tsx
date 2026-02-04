@@ -143,7 +143,7 @@ export default function ScrollFeatureSection() {
 
             <a
               href={feature.href}
-              className="glass-button opacity-70 hover:opacity-100 transition-opacity duration-300 md:opacity-100"
+              className="hidden md:inline-block glass-button opacity-70 hover:opacity-100 transition-opacity duration-300 md:opacity-100"
             >
               {feature.cta}
             </a>
