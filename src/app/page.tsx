@@ -66,7 +66,7 @@ export default function Home() {
         </section>
 
         {/* Instagram Reels Section - ADD THIS */}
-        <section id="testimonials" className="relative min-h-screen">
+        <section id="testimonials" className="relative md:min-h-screen">
           <InstagramReels />
         </section>
       </main>
