@@ -469,6 +469,7 @@ export default function Carousel3D() {
         .video-container {
           width: 100%;
           height: 100%;
+          margin-top: 0; 
         }
 
         .framer-P9Zef {
@@ -541,11 +542,25 @@ export default function Carousel3D() {
           }
         }
 
-        @media (max-width: 430px) {
+        @media (max-width: 429px) {
            .carousel-container {
-             height: 380px !important; /* Force even smaller height for <430px */
-             margin-top: 60px !important; 
+             height: 400px !important; 
+             margin-top: 20px !important; 
+             margin-bottom: -80px !important;
            }
+           
+           .carousel-section {
+             padding-bottom: 0 !important;
+             min-height: auto !important;
+             height: auto !important;
+           
+           }
+          
+        }
+        @media (max-width: 429px) {
+          .video-container {
+            margin-top: 180px;
+          }
         }
       `}</style>
     </section>
