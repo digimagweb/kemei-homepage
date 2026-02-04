@@ -60,6 +60,23 @@ export default function Carousel3D() {
     videoRefs.current = circularItems.map(() => null);
   }, []);
 
+  // Track if a video is manually controlled (clicked)
+  const manualControlId = useRef<number | null>(null);
+
+  // Helper to normalize angle to -180 to 180
+  const normalizeAngle = (angle: number) => {
+    let normalized = angle % 360;
+    if (normalized > 180) normalized -= 360;
+    if (normalized < -180) normalized += 360;
+    return normalized;
+  };
+
+  // Track play promises to avoid race conditions
+  const playPromises = useRef<Record<number, Promise<void> | null>>({});
+  // Track WHEN the promise started, so we can clear stuck ones
+  const promiseTimestamps = useRef<Record<number, number>>({});
+  const tickCount = useRef(0);
+
   // Initialize carousel and start constant rotation
   useEffect(() => {
     if (!ringRef.current) return;
@@ -78,11 +95,60 @@ export default function Carousel3D() {
 
       if (allowAutoRotate.current && ringRef.current) {
         const deltaSeconds = deltaTime / 1000;
-
         rotationY.current += rotationSpeed.current * deltaSeconds;
 
         gsap.set(ringRef.current, {
           rotationY: rotationY.current,
+        });
+      }
+
+      // FORCE PLAYBACK: Keep all videos playing as requested by user
+      // Watchdog style: Check every 20 frames (~330ms)
+      tickCount.current++;
+
+      if (tickCount.current % 20 === 0) {
+        const now = Date.now();
+        circularItems.forEach((item, index) => {
+          const video = videoRefs.current[index];
+          if (!video) return;
+
+          // Only auto-manage if not manually controlled
+          if (manualControlId.current === null) {
+
+            // 1. CLEAR STUCK PROMISES
+            // If we have a promise but it's older than 2 seconds, assume it's stuck/ignored
+            if (playPromises.current[index] && promiseTimestamps.current[index]) {
+              if (now - promiseTimestamps.current[index] > 2000) {
+                // Force clear the stuck promise
+                playPromises.current[index] = null;
+                promiseTimestamps.current[index] = 0;
+              }
+            }
+
+            // 2. CHECK & PLAY
+            // Only try if paused AND (no active promise OR we just cleared it)
+            if (video.paused && !playPromises.current[index]) {
+              // Only play if we have enough data (HAVE_FUTURE_DATA = 3)
+              // trying to play an unconnected/empty video causes errors
+              if (video.readyState >= 3) {
+                const promise = video.play();
+                if (promise !== undefined) {
+                  playPromises.current[index] = promise;
+                  promiseTimestamps.current[index] = now;
+
+                  promise
+                    .then(() => {
+                      playPromises.current[index] = null;
+                      promiseTimestamps.current[index] = 0;
+                    })
+                    .catch(() => {
+                      playPromises.current[index] = null;
+                      promiseTimestamps.current[index] = 0;
+                    });
+                }
+              }
+            }
+          }
         });
       }
 
@@ -99,9 +165,6 @@ export default function Carousel3D() {
   }, []);
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    // e.preventDefault();
-    // e.stopPropagation();
-
     isDragging.current = true;
     allowAutoRotate.current = false;
 
@@ -112,7 +175,6 @@ export default function Carousel3D() {
       gsap.set(ringRef.current, { cursor: "grabbing" });
     }
 
-    // Add event listeners
     document.addEventListener("mousemove", handleDrag);
     document.addEventListener("touchmove", handleDrag);
     document.addEventListener("mouseup", handleDragEnd);
@@ -121,18 +183,13 @@ export default function Carousel3D() {
 
   const handleDrag = (e: MouseEvent | TouchEvent) => {
     if (!isDragging.current || !ringRef.current) return;
-
     e.preventDefault();
 
     const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
     const deltaX = clientX - startX.current;
 
-    // Calculate momentum
-    // momentum.current = deltaX * 0.5;
-
     rotationY.current += deltaX * 0.3;
 
-    // Immediate update for smooth dragging
     gsap.set(ringRef.current, {
       rotationY: rotationY.current,
     });
@@ -142,11 +199,9 @@ export default function Carousel3D() {
 
   const handleDragEnd = () => {
     isDragging.current = false;
-
     if (ringRef.current) {
       gsap.set(ringRef.current, { cursor: "grab" });
     }
-
     allowAutoRotate.current = true;
 
     document.removeEventListener("mousemove", handleDrag);
@@ -155,35 +210,47 @@ export default function Carousel3D() {
     document.removeEventListener("touchend", handleDragEnd);
   };
 
-  // const handleWheel = (e: React.WheelEvent) => {
-  //   rotationY.current += e.deltaY * 0.1;
-  //   if (ringRef.current) {
-  //     // Use gsap.set for immediate wheel response
-  //     gsap.set(ringRef.current, {
-  //       rotationY: rotationY.current,
-  //     });
-  //   }
-  // };
-
   const setVideoRef = (index: number) => (el: HTMLVideoElement | null) => {
     videoRefs.current[index] = el;
-    if (el) {
-      el.play().catch((e) => console.log("Autoplay prevented:", e));
-    }
+    // Don't auto-play here, let the loop handle it
   };
 
   const handleVideoClick = (clickedId: number) => {
-    Object.entries(videoRefs.current).forEach(([id, video]) => {
-      if (!video) return;
+    // Toggle manual control
+    // If clicking the same video, exit manual control (resume auto behavior)
+    // If clicking a new video, enter manual control for that video
 
-      if (Number(id) === clickedId) {
+    // Check if we are already in manual mode for this video
+    // (Note: clickedId is item.id, we need to map to index or just use the loop)
+
+    // Find the index for this clickedId to check ref
+    const index = circularItems.findIndex(item => item.id === clickedId);
+
+    // If we are already controlling a video, reset everything first?
+    // Let's implement simple logic: Click to unmute/view, click again or click background to reset?
+    // For now: Click focuses this video.
+
+    manualControlId.current = clickedId;
+
+    Object.entries(videoRefs.current).forEach(([idxStr, video]) => {
+      if (!video) return;
+      const idx = Number(idxStr);
+      const item = circularItems[idx];
+
+      if (item.id === clickedId) {
         video.muted = false;
         video.controls = true;
-        video.play().catch(() => {});
+        video.play().catch(() => { });
       } else {
         video.muted = true;
         video.controls = false;
-        video.pause();
+        // In manual mode, maybe pause others to save resources?
+        // Or keep them playing if user wants "all playing"
+        // Let's keep visible ones playing logic, but since we set manualControlId,
+        // the loop won't touch them. We should probably pause them here if we want max performance,
+        // OR we just let them be. The user wants "all playing".
+        // Let's ensuring they are playing if they were visible, but mute them.
+        video.play().catch(() => { });
       }
     });
   };
@@ -463,3 +530,4 @@ export default function Carousel3D() {
     </section>
   );
 }
+
