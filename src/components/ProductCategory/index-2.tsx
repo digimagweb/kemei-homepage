@@ -77,18 +77,20 @@ export default function ScrollFeatureSection() {
       >
         <div
           className="relative mx-auto w-[90%] md:w-[98%]
-  lg:w-[90%] xl:w-[75%] max-w-7xl h-[550px] rounded-3xl overflow-hidden grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 glass-card"
+  lg:w-[90%] xl:w-[75%] max-w-7xl md:h-[550px] h-auto rounded-3xl overflow-hidden grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 glass-card"
         >
-          {/* MOBILE BACKGROUND (Visible only on mobile) */}
-          <div
-            className="absolute inset-0 block md:hidden bg-cover bg-center z-0 transition-opacity duration-500"
-            style={{
-              backgroundImage: `url(${
-                // @ts-ignore
-                feature.mobileImg || feature.sideImage
-                })`,
-            }}
-          />
+          {/* MOBILE IMAGE (Visible only on mobile) */}
+          <div className="block md:hidden w-full h-auto z-0 relative">
+            <Image
+              // @ts-ignore
+              src={feature.mobileImg || feature.sideImage}
+              alt={feature.title}
+              width={800}
+              height={1000}
+              className="w-full h-auto object-contain transition-opacity duration-500"
+              priority
+            />
+          </div>
 
           {/* TEXT (Hidden on mobile) */}
           <div className="hidden md:flex items-center justify-center">
