@@ -92,23 +92,31 @@ const ScrollingSection: React.FC = () => {
                 {/* Full Background Image */}
                 <div
                   className="absolute inset-0 w-full h-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${phase.mobileImg || phase.bgImg})` }}
+                  style={{ backgroundImage: `url(${phase.bgImg})` }}
                   role="img"
                   aria-label={phase.title}
                 />
 
                 {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
 
                 {/* Content Container */}
-                <div className="absolute inset-0 flex flex-col justify-end items-center p-8 pb-12 z-10">
-                  <a
-                    href={phase.ctaLink}
-                    className="px-8 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white font-medium 
-                                hover:bg-white/20 transition-all active:scale-95 shadow-lg"
-                  >
-                    Explore Now
-                  </a>
+                <div className="absolute inset-0 flex flex-col justify-end items-center p-6 text-center z-10 pb-12">
+                  {/* Central Product Image */}
+                  <img
+                    src={phase.centralImg}
+                    alt={phase.title}
+                    className="w-40 h-auto mb-4 drop-shadow-2xl object-contain"
+                  />
+
+                  <div className="space-y-2 mb-2">
+                    <h3 className="text-2xl font-bold tracking-tighter uppercase text-white drop-shadow-lg">
+                      {phase.title}
+                    </h3>
+                    <p className="text-sm font-medium text-white/90 leading-relaxed max-w-[280px] mx-auto drop-shadow-md">
+                      {phase.description}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
