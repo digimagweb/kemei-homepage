@@ -49,16 +49,16 @@
   gap: 2rem;
   align-items: center;
   padding: 12px 24px;
-  background: rgba(80, 20, 100, 0.15);
-  /* More translucent, darker neo-pink */
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(10, 10, 30, 0.7);
+  /* Dark semi-opaque glass for readability */
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
   border-radius: 100px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow:
-    0 8px 32px rgba(192, 38, 211, 0.15),
-    0 4px 16px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 /* Nav Items */
@@ -92,8 +92,8 @@
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #1e3a8a, #2563eb);
-  /* Darker blue gradient */
+  background: linear-gradient(90deg, #db2777, #ec4899);
+  /* Neo pink gradient */
   border-radius: 1px;
   transition: width 0.3s ease;
 }
@@ -173,8 +173,9 @@
   right: -100%;
   width: 280px;
   height: 100%;
-  background: rgba(0, 2, 36, 0.95);
-  backdrop-filter: blur(20px);
+  background: rgba(5, 5, 14, 0.7);
+  /* More translucent mobile menu */
+  backdrop-filter: blur(30px) saturate(200%);
   border-left: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 1000;
   transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -243,7 +244,7 @@
 
 .mobileNavItem.active {
   color: #ec4899;
-  /* Pink to match theme */
+  /* Neo pink to match page indicator */
   font-weight: 600;
 }
 
@@ -258,8 +259,8 @@
     position: fixed;
     top: 20px;
     right: 20px;
-    background: rgba(80, 20, 100, 0.15);
-    /* More translucent, darker neo-pink */
+    background: rgba(4, 4, 11, 0.7);
+    /* Dark semi-opaque glass */
     backdrop-filter: blur(20px);
     border-radius: 50%;
     width: 44px;
@@ -267,7 +268,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.149);
   }
 
   .navbarContainer {
