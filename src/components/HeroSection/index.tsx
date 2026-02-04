@@ -137,7 +137,7 @@ const HeroSection = () => {
       {/* Hero Text */}
       <div className="absolute inset-0 text-[#f5f5f5] z-10">
         {/* CENTER HEADING */}
-        <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-6">
+        <div className="hero-title-container absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-6">
           <h1
             ref={headingRef}
             className="
@@ -164,6 +164,7 @@ const HeroSection = () => {
         <div
           ref={descriptionRef}
           className="
+            hero-desc-container
             absolute
             bottom-12
             right-4
@@ -192,7 +193,6 @@ const HeroSection = () => {
             leading-relaxed
             text-right
             sm:text-left
-
           "
           >
             Experience grooming made premium. Kemei brings professional-grade
@@ -201,54 +201,7 @@ const HeroSection = () => {
           </p>
         </div>
 
-        {/* BOTTOM CENTER CTA */}
-        <div
-          ref={ctaRef}
-          className="
-            absolute
-            bottom-12
-            left-1/2
-            -translate-x-1/2
-            md:left-12
-            md:translate-x-0
-            w-full
-            md:w-auto
-            flex justify-center
-            md:justify-start
-            px-4
-            md:px-0
-          "
-        >
-          <button
-            className="
-            px-4
-            sm:px-6
-            py-2
-            sm:py-3
-            bg-[transparent]
-            text-white
-            rounded-full
-            flex items-center gap-2
-            hover:bg-[#f5f5f5]
-            hover:text-black
-            transition-colors
-            text-sm
-            sm:text-base
-            whitespace-nowrap
-          "
-          >
-            Discover More
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path
-                d="M10 4L10 16M10 16L16 10M10 16L4 10"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
+
       </div>
 
       {/* Main Product Image */}
@@ -279,7 +232,6 @@ const HeroSection = () => {
           alt="Hero image"
           priority
           className="
-           
             h-auto
             md:max-w-none
             xl:w-[45%]
@@ -288,6 +240,57 @@ const HeroSection = () => {
           "
           sizes="(max-width: 640px) 280px, (max-width: 768px) 320px, (max-width: 1024px) 380px, 500px"
         />
+      </div>
+
+      {/* BOTTOM CENTER CTA - Moved outside to fix stacking context */}
+      <div
+        ref={ctaRef}
+        className="
+            hero-cta-container
+            absolute
+            z-30
+            bottom-12
+            left-1/2
+            -translate-x-1/2
+            md:left-12
+            md:translate-x-0
+            w-full
+            md:w-auto
+            flex justify-center
+            md:justify-start
+            px-4
+            md:px-0
+          "
+      >
+        <button
+          className="
+            px-4
+            sm:px-6
+            py-2
+            sm:py-3
+            bg-[transparent]
+            text-white
+            rounded-full
+            flex items-center gap-2
+            hover:bg-[#f5f5f5]
+            hover:text-black
+            transition-colors
+            text-sm
+            sm:text-base
+            whitespace-nowrap
+          "
+        >
+          Discover More
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M10 4L10 16M10 16L16 10M10 16L4 10"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
       </div>
 
       {/* Background Image with Multiple Products */}
