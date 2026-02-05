@@ -43,7 +43,7 @@ export default function Home() {
         <section id="video" className="relative min-h-screen">
           <div className="h-[20vh]"></div>
           <VideoSection
-            videoSrc="/KemeiVideo.mp4"
+            videoSrc="/kemei_web_banner.mp4"
             title="Experience the Power of Professional Grooming"
             subtitle="Discover our range of high-quality grooming products designed for excellence."
           />
