@@ -78,6 +78,7 @@ export default function VideoSection({
             muted
             loop
             playsInline
+            webkit-playsinline      
           />
         </div>
 
