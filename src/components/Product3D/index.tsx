@@ -33,7 +33,7 @@ interface ModelProps {
   setHover: (v: boolean) => void;
   setMousePos: (v: { x: number; y: number }) => void;
 }
-
+const isIOS =typeof window !== "undefined" && /iPad|iPhone|iPod/.test(navigator.userAgent);
 /* =======================
    DATA
 ======================= */
@@ -97,6 +97,7 @@ const Model: React.FC<ModelProps> = ({
   const baseYOffset = useRef(0);
   const baseXOffset = useRef(0);
 
+
   // const animationFrameId = useRef<number>();
 
   useEffect(() => {
@@ -127,9 +128,12 @@ const Model: React.FC<ModelProps> = ({
     baseXOffset.current = 0; // Keep centered horizontally
   }, [scene]);
 
+  // iOS detection (safe)
+  
+
   useFrame((_, delta) => {
     if (!groupRef.current) return;
-
+    if (isIOS && ScrollTrigger.isScrolling()) return;
     if (isHovering) {
       groupRef.current.rotation.y = THREE.MathUtils.lerp(
         groupRef.current.rotation.y,
@@ -363,6 +367,7 @@ export default function RotatingUSPShowcase() {
 
   const activeIndexRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  
 
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [hover, setHover] = useState(false);
@@ -438,7 +443,7 @@ export default function RotatingUSPShowcase() {
         start: "top top",
         end: `+=${total * 100}%`,
         pin: true,
-        scrub: 1,
+        scrub: isIOS ? 0.8 : 1,
         anticipatePin: 1,
         onUpdate: (self) => {
           if (self.isActive) {
@@ -462,7 +467,7 @@ export default function RotatingUSPShowcase() {
         trigger: container,
         start: "top top",
         end: `+=${total * 100}%`,
-        scrub: 1,
+        scrub: isIOS ? 0.8 : 1,
         onUpdate: (self) => {
           if (circle && self.isActive) {
             const rotation = self.progress * 360;
@@ -481,7 +486,7 @@ export default function RotatingUSPShowcase() {
             trigger: container,
             start: "top top",
             end: `+=${total * 100}%`,
-            scrub: 1,
+            scrub: isIOS ? 0.8 : 1,
             onUpdate: (self) => {
               if (label && self.isActive) {
                 const rotation = -self.progress * 360;
@@ -611,7 +616,7 @@ export default function RotatingUSPShowcase() {
                 position: config.canvas.cameraPosition,
                 fov: config.canvas.fov,
               }}
-              dpr={[1, 2]}
+              dpr={isIOS ? 1 : [1, 2]}
               style={{ width: '100%', height: '100%' }}
             >
               <ambientLight intensity={0.6} />
@@ -732,6 +737,12 @@ export default function RotatingUSPShowcase() {
         @media (max-width: 767px) {
           canvas {
             touch-action: pan-y;
+          }
+        }
+        @supports (-webkit-touch-callout: none) {
+          .glass-card {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
           }
         }
       `}</style>
